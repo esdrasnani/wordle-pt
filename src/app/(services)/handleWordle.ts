@@ -1,19 +1,19 @@
-const SECRET_WORD = 'SENTO'
+import { getDictionaryPt } from '../(repositories)/dictionary'
 
-export function checkWord(word: string) {
-  if (word.length !== SECRET_WORD.length) {
+export function checkWord(word: string, secretWord: string) {
+  if (word.length !== secretWord.length) {
     throw new Error(
       'The guessed word must have the same number of letters as the secret word.',
     )
   }
 
   const result = Array<string>(word.length).fill('gray')
-  const secretWordCopy = SECRET_WORD.split('')
+  const secretWordCopy = secretWord.split('')
   const usedIndices = new Set<number>()
 
   // First pass: check for correct letters in the correct position (green)
   for (let i = 0; i < word.length; i++) {
-    if (word[i] === SECRET_WORD[i]) {
+    if (word[i] === secretWord[i]) {
       result[i] = 'green'
       usedIndices.add(i) // Mark the position as used
     }

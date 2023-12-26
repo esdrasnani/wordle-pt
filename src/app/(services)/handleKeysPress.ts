@@ -68,6 +68,7 @@ export function handleBackspace(
 
 export function handleEnter(
   currentWordLetters: string[],
+  secretWord: string,
   currentLetterIndex: MutableRefObject<{
     x: number
     y: number
@@ -76,7 +77,7 @@ export function handleEnter(
   setResultGrid: SetAtom<[SetStateAction<string[][]>], void>,
 ) {
   const currentWord = currentWordLetters.join('')
-  const result = checkWord(currentWord)
+  const result = checkWord(currentWord, secretWord)
 
   setResultGrid((prev) => {
     const newGrid = [...prev]
@@ -88,13 +89,18 @@ export function handleEnter(
     return newGrid
   })
 
-  currentLetterIndex.current = {
-    ...currentLetterIndex.current,
-    x: 0,
-    y: currentLetterIndex.current.y + 1,
-  }
+  if (currentLetterIndex.current.y < 5) {
+    currentLetterIndex.current = {
+      ...currentLetterIndex.current,
+      x: 0,
+      y: currentLetterIndex.current.y + 1,
+    }
 
-  setLetterGrid((prev) => {
-    return [...prev]
-  })
+    setLetterGrid((prev) => {
+      return [...prev]
+    })
+  } else {
+    console.log('Game Over')
+    console.log('Secret Word', secretWord)
+  }
 }

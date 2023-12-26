@@ -10,7 +10,7 @@ import {
   handleLetterPress,
 } from '../(services)/handleKeysPress'
 
-export default function Grid() {
+export default function Grid({ secretWord }: { secretWord: string }) {
   const [letterGrid, setLetterGrid] = useAtom(gridAtom)
   const [resultGrid, setResultGrid] = useAtom(resultGridAtom)
   const currentLetterIndex = useRef({ x: 0, y: 0 }) // Using useRef instead of useState
@@ -28,21 +28,17 @@ export default function Grid() {
             wordLength++
           }
         })
-        if (wordLength === 5 && currentLetterIndex.current.y < 5) {
+        if (wordLength === 5) {
           console.log('Word is 5 letters long')
           console.log(currentLetterIndex.current.x)
           const currentWord = letterGrid[currentLetterIndex.current.y]
           handleEnter(
             currentWord,
+            secretWord,
             currentLetterIndex,
             setLetterGrid,
             setResultGrid,
           )
-        } else {
-          if (currentLetterIndex.current.y >= 5) {
-            console.log('No more words')
-          }
-          console.log('Word needs to be 5 letters long')
         }
       }
     }
